@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKIM Email Security Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <div class="brand"><span>◈</span> DKIM <b>SECURITY LAB</b></div>
+  <div class="navlinks">
+    <a href="#lab">Lab</a><a href="#attack">Attack Demo</a>
+    <a href="#analyzer">Header Analyzer</a><a href="#seminar">Seminar</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="badge">COMPUTER NETWORK SECURITY • INTERACTIVE PROJECT</div>
+  <h1>DKIM Email <span>Security Lab</span></h1>
+  <p>Understand how digital signatures, DNS public keys and message verification help authenticate email.</p>
+  <div class="heroBtns"><a class="primary" href="#lab">Start Interactive Lab</a><a class="secondary" href="#seminar">Seminar Mode</a></div>
+  <div class="flow">
+    <div>📧<small>Email</small></div><i>→</i><div>🔐<small>Sign</small></div><i>→</i>
+    <div>🌐<small>Internet</small></div><i>→</i><div>📡<small>DNS</small></div><i>→</i>
+    <div>✓<small>Verify</small></div>
+  </div>
+</header>
+
+<main>
+<section class="section intro">
+ <div class="sectionTag">THE REAL-WORLD PROBLEM</div>
+ <h2>Can someone pretend to be your bank or college?</h2>
+ <p>Attackers can spoof addresses and send convincing messages. DKIM adds a domain-level cryptographic signature that receivers can verify.</p>
+ <div class="cards three">
+  <article><div class="icon">🕵️</div><h3>Threat</h3><p>Attackers attempt to impersonate trusted organizations.</p></article>
+  <article><div class="icon">🔐</div><h3>DKIM</h3><p>The sender signs selected email content using a private key.</p></article>
+  <article><div class="icon">🛡️</div><h3>Verification</h3><p>The receiver uses a public key published through DNS.</p></article>
+ </div>
+</section>
+
+<section id="lab" class="section lab">
+ <div class="sectionTag">INTERACTIVE DEMONSTRATION</div>
+ <h2>1. Send a legitimate signed email</h2>
+ <p class="muted">Enter a message and watch the educational DKIM flow.</p>
+ <div class="grid">
+  <div class="panel">
+   <h3>📤 Sender</h3>
+   <label>From domain</label><input id="domain" value="college-example.com">
+   <label>Selector</label><input id="selector" value="demo">
+   <label>Subject</label><input id="subject" value="Important Examination Notice">
+   <label>Message</label><textarea id="message">Your examination schedule is available on the college portal.</textarea>
+   <button class="primary wide" id="signBtn">🔐 Sign & Send Email</button>
+  </div>
+  <div class="panel terminal">
+   <h3>⚙️ DKIM Signing Process</h3>
+   <div id="steps" class="steps"><p>Waiting for sender...</p></div>
+  </div>
+ </div>
+ <div class="resultRow">
+   <div class="panel mini"><h3>📡 Simulated DNS TXT Record</h3><pre id="dns">demo._domainkey.college-example.com
+v=DKIM1; k=rsa; p=PUBLIC_KEY...</pre></div>
+   <div class="panel mini"><h3>📩 Receiver Result</h3><div id="verifyResult" class="status neutral">READY TO VERIFY</div><p id="verifyText">Send a signed email to start verification.</p></div>
+ </div>
+</section>
+
+<section id="attack" class="section attack">
+ <div class="sectionTag">CYBER ATTACK SIMULATION</div>
+ <h2>2. Modify the message and test integrity</h2>
+ <p>After signing, an attacker changes the email. The receiver calculates the message hash again and the verification fails.</p>
+ <div class="attackBox">
+   <div><h3>Original signed message</h3><p id="originalText">Run the signing demonstration first.</p></div>
+   <div class="arrow">→</div>
+   <div><h3>Attacker changes it</h3><textarea id="tampered">Your examination schedule is CANCELLED. Send your password to confirm.</textarea><button id="attackBtn" class="danger">🕵️ Simulate Tampering</button></div>
+ </div>
+ <div id="attackResult" class="status neutral">WAITING FOR ATTACK SIMULATION</div>
+ <div id="hashCompare"></div>
+</section>
+
+<section class="section dnsExplain">
+ <div class="sectionTag">WHAT HAPPENS INTERNALLY?</div>
+ <h2>DKIM verification flow</h2>
+ <div class="timeline">
+  <div><b>1</b><h3>Hash</h3><p>Email content is represented by a cryptographic hash.</p></div>
+  <div><b>2</b><h3>Sign</h3><p>The sending domain signs using its private key.</p></div>
+  <div><b>3</b><h3>DNS Lookup</h3><p>The receiver finds the selector's public key record.</p></div>
+  <div><b>4</b><h3>Verify</h3><p>The signature is checked against the received content.</p></div>
+ </div>
+</section>
+
+<section id="analyzer" class="section analyzer">
+ <div class="sectionTag">REAL-WORLD HEADER ANALYSIS</div>
+ <h2>3. Analyze email authentication headers</h2>
+ <p>Paste a raw email header containing <code>Authentication-Results</code> and this tool will detect PASS/FAIL text.</p>
+ <textarea id="headers" placeholder="Paste email headers here...&#10;&#10;Example: Authentication-Results: mx.google.com; dkim=pass; spf=pass; dmarc=pass;"></textarea>
+ <button id="analyzeBtn" class="primary">Analyze Headers</button>
+ <div id="analysis" class="analysisCards"></div>
+ <p class="note">Educational parser: it reads authentication-result text and DKIM domain/selector when present; it does not independently cryptographically validate a live email.</p>
+</section>
+
+<section id="seminar" class="section seminar">
+ <div class="sectionTag">15-MINUTE SEMINAR MODE</div>
+ <h2>Presentation + demonstration plan</h2>
+ <div class="seminarGrid">
+  <div class="panel"><h3>🗣️ 0–3 min: Problem</h3><p>Explain phishing and spoofed email using the bank/college example.</p></div>
+  <div class="panel"><h3>🔐 3–6 min: DKIM</h3><p>Explain private key, signature and message integrity.</p></div>
+  <div class="panel"><h3>💻 6–11 min: Live Project</h3><p>Run PASS first, then modify the message and show FAIL.</p></div>
+  <div class="panel"><h3>📡 11–13 min: DNS</h3><p>Explain selector, <code>_domainkey</code> and the public key.</p></div>
+  <div class="panel"><h3>🎥 13–14.5 min: Video Story</h3><p>Use the storyboard below for an AI video or animation.</p></div>
+  <div class="panel"><h3>✅ 14.5–15 min: Conclusion</h3><p>DKIM helps authenticate signed email content; SPF and DMARC complement it.</p></div>
+ </div>
+ <div class="videoStory">
+  <h3>🎬 90-Second AI Video Storyboard</h3>
+  <ol>
+   <li><b>0–12s:</b> Student receives a suspicious bank email.</li>
+   <li><b>12–25s:</b> Legitimate sender hashes and signs an email with a private key.</li>
+   <li><b>25–35s:</b> Signed email travels through the Internet.</li>
+   <li><b>35–50s:</b> Receiver queries DNS for the public key.</li>
+   <li><b>50–70s:</b> Receiver verifies the signature — <b class="good">DKIM PASS ✓</b>.</li>
+   <li><b>70–82s:</b> Attacker modifies content — <b class="bad">DKIM FAIL ✗</b>.</li>
+   <li><b>82–90s:</b> Final recap: Private Key → Sign → DNS Public Key → Verify.</li>
+  </ol>
+ </div>
+</section>
+
+<section class="section conclusion">
+ <h2>DKIM + SPF + DMARC</h2>
+ <div class="cards three">
+  <article><h3>SPF</h3><p>Which servers are authorized to send for a domain?</p></article>
+  <article><h3>DKIM</h3><p>Was the message signed and does the signature verify?</p></article>
+  <article><h3>DMARC</h3><p>How should authentication and alignment results be handled?</p></article>
+ </div>
+</section>
+</main>
+<footer>DKIM Email Security Lab • Educational CNS Project • Built for demonstration and learning</footer>
+<script src="app.js"></script>
+</body></html>

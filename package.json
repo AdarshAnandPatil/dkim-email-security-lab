@@ -1,1 +1,0 @@
-{"name":"dkim-security-lab-v3","version":"3.0.0","description":"Interactive DKIM CNS seminar project","main":"server.js","scripts":{"start":"node server.js"},"dependencies":{"express":"^4.21.2"}}

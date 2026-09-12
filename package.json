@@ -1,0 +1,12 @@
+{
+  "name": "dkim-email-security-lab-v3",
+  "version": "1.0.0",
+  "description": "Interactive DKIM CNS seminar project with simulator, attack demo, AI robot video package and seminar resources.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
